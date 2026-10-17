@@ -1,69 +1,124 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import SitePreloader from "@/components/realevate/SitePreloader";
+import SelectionMenu, { CategoryItem, CATEGORIES } from "@/components/realevate/SelectionMenu";
+import HeroView from "@/components/realevate/HeroView";
+import CategoryScrollPage from "@/components/realevate/CategoryScrollPage";
+import AboutDrawer from "@/components/realevate/AboutDrawer";
+import ContactDrawer from "@/components/realevate/ContactDrawer";
+import NavMenuDrawer from "@/components/realevate/NavMenuDrawer";
 
 export default function Home() {
+  const [isPreloaderActive, setIsPreloaderActive] = useState(true);
+  const [isSelectionOpen, setIsSelectionOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<CategoryItem | null>(null);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleSelectCategory = (cat: CategoryItem) => {
+    setActiveCategory(cat);
+    setIsSelectionOpen(false);
+  };
+
+  const handleReturnHome = () => {
+    setActiveCategory(null);
+    setIsSelectionOpen(false);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="relative w-full h-[100svh] overflow-hidden bg-[#ECE8E4]">
+      {/* 01. The Signature Realevate Preloader with rolling digits & cycling frames */}
+      {isPreloaderActive && (
+        <SitePreloader onComplete={() => setIsPreloaderActive(false)} />
+      )}
+
+      {/* 02. The Iconic "Our Selection" 4-Card Radial Deck Drawer */}
+      <SelectionMenu
+        isOpen={isSelectionOpen}
+        onClose={() => setIsSelectionOpen(false)}
+        onSelectCategory={handleSelectCategory}
+        onOpenAbout={() => {
+          setIsSelectionOpen(false);
+          setIsAboutOpen(true);
+        }}
+        onOpenContact={() => {
+          setIsSelectionOpen(false);
+          setIsContactOpen(true);
+        }}
+      />
+
+      {/* 03. Either Main Homepage Stage OR Complete Scrollable Category Page (matching realevate.agency) */}
+      {!activeCategory ? (
+        <HeroView
+          isSelectionOpen={isSelectionOpen}
+          onToggleSelection={() => setIsSelectionOpen(!isSelectionOpen)}
+          onOpenAbout={() => setIsAboutOpen(true)}
+          onOpenContact={() => setIsContactOpen(true)}
+          onOpenMenu={() => setIsMenuOpen(true)}
+          onSelectCategory={handleSelectCategory}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      ) : (
+        <CategoryScrollPage
+          category={activeCategory}
+          onReturnHome={handleReturnHome}
+          onOpenSelection={() => setIsSelectionOpen(true)}
+          onOpenAbout={() => setIsAboutOpen(true)}
+          onOpenContact={() => setIsContactOpen(true)}
+          onSelectCategory={(cat) => setActiveCategory(cat)}
+        />
+      )}
+
+      {/* Truly Viewport-Fixed "Our Selection" Button on Homepage */}
+      {!activeCategory && !isSelectionOpen && !isPreloaderActive && (
+        <div className="fixed z-40 bottom-6 sm:bottom-8 right-6 sm:right-10 flex items-center gap-2 pointer-events-auto">
+          <button
+            onClick={() => setIsSelectionOpen(true)}
+            className="group relative inline-flex items-center justify-center gap-3 h-[46px] sm:h-[50px] px-6 rounded-full border border-[#BC2327] text-xs sm:text-sm font-semibold uppercase tracking-wider text-white bg-[#BC2327] overflow-hidden transition-all duration-500 hover:text-[#1A0A0C] hover:border-[#C5A867] shadow-[0_15px_40px_rgba(188,35,39,0.35)] cursor-pointer"
+            aria-label="Open Our Selection deck"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <span className="absolute inset-0 bg-[#C5A867] -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.7,0.6,0,1)]" />
+            <span className="relative z-10">Our Selection</span>
+            <svg
+              className="relative z-10 w-3.5 h-3.5 fill-current"
+              viewBox="0 0 13 13"
+              aria-hidden="true"
+            >
+              <rect width="4" height="4" />
+              <rect x="9" width="4" height="4" />
+              <rect y="9" width="4" height="4" />
+              <rect x="9" y="9" width="4" height="4" />
+            </svg>
+          </button>
         </div>
-      </main>
+      )}
+
+      {/* 04. About Drawer (Slides in on About click) */}
+      <AboutDrawer
+        isOpen={isAboutOpen}
+        onClose={() => setIsAboutOpen(false)}
+        onOpenContact={() => {
+          setIsAboutOpen(false);
+          setIsContactOpen(true);
+        }}
+      />
+
+      {/* 05. Contact & Delegation Booking Drawer (Slides in on Contact click) */}
+      <ContactDrawer
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+      />
+
+      {/* 06. Nav Menu Drawer (Slides in on Menu hamburger click) */}
+      <NavMenuDrawer
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        onSelectCategory={handleSelectCategory}
+        onOpenAbout={() => setIsAboutOpen(true)}
+        onOpenContact={() => setIsContactOpen(true)}
+        onOpenSelection={() => setIsSelectionOpen(true)}
+      />
     </div>
   );
 }
