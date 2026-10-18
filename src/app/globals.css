@@ -36,12 +36,10 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100svh;
-  overflow: hidden;
+  min-height: 100%;
   background: var(--background);
-  color: var(--navy);
+  color: var(--foreground);
   font-family: var(--font-sans);
-  font-weight: 500;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

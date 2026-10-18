@@ -20,23 +20,22 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Piptan | Africa Investor Summit & Global Capital Gateway",
+  title: "Piptan Estates | Find What Moves You",
   description:
-    "Piptan connects global liquidity and institutional GCC capital with high-yield frontier investments across Africa. Direct investments, strategic infrastructure, and fintech growth.",
+    "Expert agents. Real guidance. A clear path to find what's next. Discover premier residences, luxury penthouses, and private architectural estates.",
   keywords: [
-    "Piptan",
-    "Piptan Group",
-    "Africa Investors",
-    "African Investment Summit",
-    "GCC Africa Capital",
-    "Private Equity Africa",
-    "Cross Border Wealth Advisory",
+    "Piptan Estates",
+    "Luxury Real Estate",
+    "Penthouses",
+    "Architectural Homes",
+    "Private Estates",
+    "Find What Moves You",
   ],
   openGraph: {
-    title: "Piptan | Africa Investor Summit & Global Capital Gateway",
+    title: "Piptan Estates | Find What Moves You",
     description:
-      "Architects of cross-border capital deployment. Meeting sovereign and institutional investors across Africa.",
-    images: ["/images/hero_africa.jpg"],
+      "Expert agents. Real guidance. A clear path to find what's next. Discover premier residences, luxury penthouses, and private estates.",
+    images: ["/hero/house.webp"],
     type: "website",
   },
 };
@@ -51,7 +50,7 @@ export default function RootLayout({
       lang="en"
       className={`${outfit.variable} ${geistMono.variable} ${cormorant.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col bg-[#07090e] text-[#e8ecf4] font-sans selection:bg-[#c5a867] selection:text-[#0a0c10] overflow-x-hidden">
+      <body className="min-h-full flex flex-col bg-[#f7f8fa] text-[#14161a] font-sans selection:bg-[#18181b] selection:text-[#ffffff] overflow-x-hidden">
         {children}
       </body>
     </html>
