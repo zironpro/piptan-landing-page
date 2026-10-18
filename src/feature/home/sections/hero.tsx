@@ -381,10 +381,10 @@ function HeroStage(_props: HeroSectionProps) {
 
           <div className="mt-6 sm:mt-7">
             <a
-              href="#properties"
+              href="/contact"
               className="group inline-flex items-center gap-2.5 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#1c1c1f] hover:bg-black text-white text-xs sm:text-sm font-medium tracking-wide shadow-lg shadow-black/15 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-[transform,box-shadow,background-color] duration-300 border border-white/10 cursor-pointer"
             >
-              <span>Explore Strategic Opportunities</span>
+              <span>Book a quick consult</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
             </a>
           </div>

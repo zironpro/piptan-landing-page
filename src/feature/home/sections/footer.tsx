@@ -108,7 +108,7 @@ export default function Footer() {
         {/* Bottom Legal, Corridors & Copyright Row */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/50">
           <div className="flex flex-wrap items-center gap-4 text-center sm:text-left">
-            <span>&copy; {new Date().getFullYear()} Piptan Investment &amp; Securities. All rights reserved.</span>
+            <span>© 2026 Piptan Investment &amp; Securities. All rights reserved.</span>
           </div>
 
           
