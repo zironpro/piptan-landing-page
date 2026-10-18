@@ -92,7 +92,7 @@ export default function Footer() {
           <div className="w-full overflow-hidden flex items-center justify-center">
             <svg
               viewBox="0 0 613 93"
-              className="w-full h-auto max-h-[38vw] select-none text-[#BC2327] hover:brightness-110 transition-all duration-300"
+              className="w-full h-auto max-h-[38vw] select-none text-white hover:brightness-110 transition-all duration-300"
               fill="#BC2327"
               xmlns="http://www.w3.org/2000/svg"
               aria-label="PIPTAN"

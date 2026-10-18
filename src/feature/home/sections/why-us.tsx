@@ -294,7 +294,7 @@ export default function WhyUsSection() {
 
           <div className="relative z-10 shrink-0">
             <a
-              href="#contact"
+              href="/contact"
               className="inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 rounded-full bg-[#bc2327] hover:bg-white hover:text-[#111215] text-white text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-xl cursor-pointer"
             >
               <span>Request Meeting Slot</span>

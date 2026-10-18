@@ -729,7 +729,7 @@ function AboutSection() {
 
             <div className="pt-4 flex flex-wrap items-center gap-4">
               <a
-                href="#contact"
+                href="/contact"
                 className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#111215] hover:bg-[#bc2327] text-white text-xs font-semibold tracking-wider uppercase transition-all duration-300 shadow-md hover:shadow-xl hover:scale-[1.02]"
               >
                 <span>Request Delegation Briefing</span>

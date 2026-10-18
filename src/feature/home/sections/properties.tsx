@@ -317,7 +317,7 @@ export default function PropertiesSection() {
           </div>
 
           <a
-            href="#contact"
+            href="/contact"
             className="shrink-0 px-6 py-3 rounded-full bg-[#111215] hover:bg-[#bc2327] text-white text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-xl hover:scale-[1.02]"
           >
             Schedule Investor Briefing
