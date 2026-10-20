@@ -737,7 +737,6 @@ const LANDSCAPE = [
 export function PanoramaSection() {
   const T = THEMES.dark;
   const ref = useRef<HTMLDivElement>(null);
-  const { entered, reduce } = useEntry(ref);
   const bigRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
   const miniRef = useRef<HTMLDivElement>(null);
@@ -819,16 +818,15 @@ export function PanoramaSection() {
       data-tail="100"
       aria-label="The landscape"
       className={`${fontVars} relative w-full`}
-      style={coverStyle("chevron", 4, { height: "340vh", backgroundColor: T.bg })}
+      style={{
+        position: "relative",
+        marginTop: "-100vh",
+        zIndex: 4,
+        height: "340vh",
+        backgroundColor: T.bg,
+      }}
     >
-      <CoverEdge shape="chevron" color={T.gold} />
-      <div
-        className="sticky top-0 h-screen w-full overflow-hidden"
-        style={{
-          clipPath: entered ? "circle(150% at 50% 50%)" : "circle(0% at 50% 50%)",
-          transition: reduce ? "none" : `clip-path 3600ms ${EASE}`,
-        }}
-      >
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
         {/* The oversized picture — only a window of it is ever visible */}
         <div
           ref={bigRef}
@@ -1135,8 +1133,10 @@ export function ContactSection() {
   const T = THEMES.dark;
   const ref = useRef<HTMLElement>(null);
   const [shown, setShown] = useState(false);
+  const [year, setYear] = useState<number | string>("2026");
 
   useEffect(() => {
+    setYear(new Date().getFullYear());
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
@@ -1252,7 +1252,7 @@ export function ContactSection() {
           className="text-[11px] font-light tracking-[0.08em]"
           style={{ color: T.faint, fontFamily: SANS_FF }}
         >
-          © {new Date().getFullYear()} Piptan. All rights reserved.
+          © {year} Piptan. All rights reserved.
         </p>
       </footer>
     </section>
