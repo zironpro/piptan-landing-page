@@ -13,18 +13,6 @@ export default function HomePage() {
     <main>
       {/* Hero Section (includes scroll pin + About section) */}
       <HeroSection />
-
-      {/* Executive Video Briefing Section */}
-      <VideoSection />
-
-      {/* Why Us / Institutional Advantages Section */}
-      <WhyUsSection />
-
-      {/* Curated Opportunities / Properties Section */}
-      <PropertiesSection />
-
-      {/* Executive Institutional Footer */}
-      <Footer />
     </main>
   );
 }
