@@ -1,31 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { useCallback, useEffect, useRef, useState } from "react";
-
-/* ------------------------------------------------------------------ */
-/*  Fonts — the Piptan logo stays an untouched SVG; these only style   */
-/*  the supporting copy.                                               */
-/* ------------------------------------------------------------------ */
-const display = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  style: ["normal", "italic"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-const sans = Manrope({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--font-sans-lux",
-  display: "swap",
-});
+import { display, sans } from "./luxury";
 
 /* ------------------------------------------------------------------ */
 /*  Config                                                             */
 /* ------------------------------------------------------------------ */
+const ENTRY_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 const TOTAL_FRAMES = 120;
 const READY_FRAMES = 12; // reveal once this many are decoded
 const BATCH_SIZE = 6; // frames requested in parallel (keeps network sane)
@@ -330,11 +312,22 @@ export default function HeroSection() {
     const onScroll = () => {
       const el = containerRef.current;
       if (!el) return;
-      const scrollable = el.offsetHeight - window.innerHeight;
+      // last 100vh is covered by the next section, so finish the frames before it
+      const scrollable = el.offsetHeight - window.innerHeight * 2;
       if (scrollable <= 0) return;
       const rect = el.getBoundingClientRect();
       const progress = clamp(-rect.top / scrollable, 0, 1);
       targetFrameRef.current = 1 + progress * (TOTAL_FRAMES - 1);
+
+      // Off-screen: snap to the end state so coming back never replays a catch-up
+      if (!inViewRef.current) {
+        if (currentFrameRef.current !== targetFrameRef.current) {
+          currentFrameRef.current = targetFrameRef.current;
+          applyOverlays(currentFrameRef.current);
+          drawFrame(clamp(Math.round(currentFrameRef.current), 1, TOTAL_FRAMES));
+        }
+        return;
+      }
       start();
     };
 
@@ -342,7 +335,7 @@ export default function HeroSection() {
     const io = new IntersectionObserver(
       ([entry]) => {
         inViewRef.current = entry.isIntersecting;
-        if (entry.isIntersecting) onScroll();
+        onScroll();
       },
       { threshold: 0 },
     );
@@ -364,7 +357,7 @@ export default function HeroSection() {
     <div
       ref={containerRef}
       className={`${display.variable} ${sans.variable} relative w-full`}
-      style={{ height: "450vh", backgroundColor: INK }}
+      style={{ height: "550vh", backgroundColor: INK, isolation: "isolate" }}
     >
       <div className="sticky top-0 left-0 flex h-screen w-full items-center justify-center overflow-hidden">
         <canvas
@@ -387,7 +380,17 @@ export default function HeroSection() {
           className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center will-change-[transform,opacity]"
           style={{ opacity: isReady ? 1 : 0 }}
         >
-          <div className="relative w-[85%] max-w-[560px] sm:max-w-[620px] md:max-w-[720px] lg:max-w-[800px] drop-shadow-[0_8px_40px_rgba(0,0,0,0.75)]">
+          <div
+            className="relative w-[85%] max-w-[560px] sm:max-w-[620px] md:max-w-[720px] lg:max-w-[800px] drop-shadow-[0_8px_40px_rgba(0,0,0,0.75)]"
+            style={{
+              opacity: isReady ? 1 : 0,
+              transform: isReady
+                ? "translate3d(0,0,0) scale(1)"
+                : "translate3d(0,18px,0) scale(0.96)",
+              filter: isReady ? "blur(0px)" : "blur(12px)",
+              transition: `opacity 2800ms ${ENTRY_EASE} 500ms, transform 3200ms ${ENTRY_EASE} 500ms, filter 2800ms ${ENTRY_EASE} 500ms`,
+            }}
+          >
             <Image
               src="/piptan-logo.svg"
               alt="Piptan Logo"
@@ -403,6 +406,9 @@ export default function HeroSection() {
               className="h-px w-8 sm:w-14"
               style={{
                 background: `linear-gradient(to right, transparent, ${GOLD})`,
+                transformOrigin: "right",
+                transform: isReady ? "scaleX(1)" : "scaleX(0)",
+                transition: `transform 2400ms ${ENTRY_EASE} 1800ms`,
               }}
             />
             <p
@@ -411,6 +417,9 @@ export default function HeroSection() {
                 color: IVORY,
                 fontFamily: "var(--font-sans-lux), system-ui, sans-serif",
                 textShadow: "0 4px 18px rgba(0,0,0,0.8)",
+                opacity: isReady ? 1 : 0,
+                transform: isReady ? "translate3d(0,0,0)" : "translate3d(0,10px,0)",
+                transition: `opacity 2400ms ${ENTRY_EASE} 2200ms, transform 2400ms ${ENTRY_EASE} 2200ms`,
               }}
             >
               Investment
@@ -423,6 +432,9 @@ export default function HeroSection() {
               className="h-px w-8 sm:w-14"
               style={{
                 background: `linear-gradient(to left, transparent, ${GOLD})`,
+                transformOrigin: "left",
+                transform: isReady ? "scaleX(1)" : "scaleX(0)",
+                transition: `transform 2400ms ${ENTRY_EASE} 1800ms`,
               }}
             />
           </div>

@@ -1,18 +1,23 @@
-"use client";
-
-import React from "react";
-import Link from "next/link";
 import HeroSection from "./sections/hero";
-import VideoSection from "./sections/video";
-import WhyUsSection from "./sections/why-us";
-import PropertiesSection from "./sections/properties";
-import Footer from "./sections/footer";
+import {
+  MandateSection,
+  CorridorsSection,
+  GovernanceSection,
+  ProcessSection,
+  ContactSection,
+  PanoramaSection,
+} from "@/feature/home/sections/properties";
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <main>
-      {/* Hero Section (includes scroll pin + About section) */}
+    <main style={{ backgroundColor: "#08080a" }}>
       <HeroSection />
+      <MandateSection />
+      <CorridorsSection />
+      <GovernanceSection />
+      <PanoramaSection />
+      <ProcessSection />
+      <ContactSection />
     </main>
   );
 }
