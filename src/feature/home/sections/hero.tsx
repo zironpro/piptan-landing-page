@@ -568,7 +568,7 @@ export default function HeroSection() {
           </span>
         </div>
 
-        {/* Loader */}
+        {/* Loader: logo revealed left → right */}
         <div
           className="absolute inset-0 z-30 flex items-center justify-center transition-opacity duration-700"
           style={{
@@ -578,10 +578,27 @@ export default function HeroSection() {
           }}
           aria-hidden={isReady}
         >
-          <span
-            className="block h-px w-24 origin-left animate-[loadline_1.6s_ease-in-out_infinite] motion-reduce:animate-none"
-            style={{ background: GOLD }}
-          />
+          <div className="relative w-[70%] max-w-[360px] sm:max-w-[440px] md:max-w-[520px]">
+            {/* Dim base logo (always visible) */}
+            <Image
+              src="/piptan-logo.svg"
+              alt=""
+              width={613}
+              height={93}
+              priority
+              className="h-auto w-full object-contain brightness-0 invert opacity-15"
+            />
+
+            {/* Bright logo revealed left → right */}
+            <Image
+              src="/piptan-logo.svg"
+              alt="Piptan Logo"
+              width={613}
+              height={93}
+              priority
+              className="absolute inset-0 h-auto w-full object-contain brightness-0 invert animate-[logoreveal_2s_cubic-bezier(0.22,1,0.36,1)_infinite] motion-reduce:animate-none"
+            />
+          </div>
         </div>
       </div>
 
@@ -591,10 +608,10 @@ export default function HeroSection() {
           0%   { transform: translateY(-100%); }
           100% { transform: translateY(200%); }
         }
-        @keyframes loadline {
-          0%   { transform: scaleX(0); opacity: .4; }
-          50%  { transform: scaleX(1); opacity: 1; }
-          100% { transform: scaleX(0); opacity: .4; transform-origin: right; }
+        @keyframes logoreveal {
+          0%   { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
+          70%  { clip-path: inset(0 0 0 0);    -webkit-clip-path: inset(0 0 0 0); }
+          100% { clip-path: inset(0 0 0 0);    -webkit-clip-path: inset(0 0 0 0); }
         }
       `}</style>
     </div>
