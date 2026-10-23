@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { useScrollScrub } from "./useScrollScrub";
 import { useEntry } from "./useEntry";
@@ -1332,9 +1333,8 @@ export function ContactSection() {
         </p>
 
         <div style={rise(1300)}>
-          {/* TODO: replace with your real contact address */}
-          <a
-            href="mailto:contact@piptan.com"
+          <Link
+            href="/contact"
             className="mt-12 inline-block px-10 py-4 text-[13px] font-light tracking-[0.2em] transition-colors duration-500 hover:bg-[#c9a96a] hover:text-[#08080a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c9a96a]"
             style={{
               color: T.goldSoft,
@@ -1343,29 +1343,145 @@ export function ContactSection() {
             }}
           >
             Contact Piptan
-          </a>
+          </Link>
         </div>
       </div>
 
       <footer
-        className="relative mt-24 flex w-full max-w-7xl flex-col items-center gap-6 pb-10 pt-8 sm:flex-row sm:justify-between"
+        className="relative mt-24 flex w-full max-w-7xl flex-col justify-between gap-12 pb-16 pt-12 md:flex-row md:items-start"
         style={{ borderTop: `1px solid ${T.hair}` }}
       >
-        <div className="w-32 opacity-80">
-          <Image
-            src="/piptan-logo.svg"
-            alt="Piptan"
-            width={613}
-            height={93}
-            className="h-auto w-full object-contain brightness-0 invert"
-          />
+        {/* Left Column: Brand Logo in white, Description, and Social Links */}
+        <div className="flex max-w-md flex-col items-start gap-6">
+          <div className="w-36 sm:w-44">
+            <Image
+              src="/piptan-logo.svg"
+              alt="Piptan"
+              width={613}
+              height={93}
+              className="h-auto w-full object-contain brightness-0 invert"
+              priority
+            />
+          </div>
+
+          <p
+            className="text-xs font-light leading-relaxed sm:text-[13px]"
+            style={{ color: "rgba(244,239,230,0.72)", fontFamily: SANS_FF }}
+          >
+            Piptan Investment is your trusted partner in premium real estate.
+            From luxury residences to strategic investments, we help you make
+            confident, future-ready property decisions in Dubai and beyond.
+          </p>
+
+          <div className="space-y-3 pt-2">
+            <span
+              className="block text-xs font-light tracking-wider"
+              style={{ color: "rgba(244,239,230,0.85)", fontFamily: SANS_FF }}
+            >
+              Connect with us
+            </span>
+            <div className="flex items-center gap-2.5">
+              {/* Facebook */}
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#18181c] text-[#f4efe6]/80 transition-all hover:bg-[#c9a96a] hover:text-[#08080a]"
+              >
+                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
+                </svg>
+              </a>
+              {/* Instagram */}
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#18181c] text-[#f4efe6]/80 transition-all hover:bg-[#c9a96a] hover:text-[#08080a]"
+              >
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                </svg>
+              </a>
+              {/* LinkedIn */}
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#18181c] text-[#f4efe6]/80 transition-all hover:bg-[#c9a96a] hover:text-[#08080a]"
+              >
+                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+                </svg>
+              </a>
+              {/* Telegram */}
+              <a
+                href="https://telegram.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Telegram"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#18181c] text-[#f4efe6]/80 transition-all hover:bg-[#c9a96a] hover:text-[#08080a]"
+              >
+                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
-        <p
-          className="text-[11px] font-light tracking-[0.08em]"
-          style={{ color: T.faint, fontFamily: SANS_FF }}
-        >
-          © {year} Piptan. All rights reserved.
-        </p>
+
+        {/* Right Column: Contact Details matching screenshot */}
+        <div className="flex flex-col items-start gap-4 text-left md:items-start">
+          <h4
+            className="text-sm font-medium tracking-wider sm:text-base"
+            style={{ color: "rgba(244,239,230,0.9)", fontFamily: SANS_FF }}
+          >
+            Contact
+          </h4>
+          <div
+            className="space-y-3 text-xs font-light leading-relaxed sm:text-sm"
+            style={{ fontFamily: SANS_FF }}
+          >
+            <div>
+              <a
+                href="https://piptan.ae/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#f4efe6]/90 transition-colors hover:text-[#c9a96a]"
+              >
+                Business Bay, Dubai, UAE
+              </a>
+            </div>
+            <div>
+              <a
+                href="tel:+971564014000"
+                className="text-[#f4efe6]/90 transition-colors hover:text-[#c9a96a]"
+              >
+                +971 56 401 4000
+              </a>
+            </div>
+            <div>
+              <a
+                href="mailto:invest@piptan.com"
+                className="text-[#f4efe6]/90 transition-colors hover:text-[#c9a96a]"
+              >
+                invest@piptan.com
+              </a>
+            </div>
+          </div>
+
+          <p
+            className="pt-6 text-[11px] font-light tracking-[0.08em]"
+            style={{ color: T.faint, fontFamily: SANS_FF }}
+          >
+            © {year} Piptan. All rights reserved.
+          </p>
+        </div>
       </footer>
     </section>
   );
