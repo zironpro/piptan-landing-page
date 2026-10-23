@@ -26,9 +26,10 @@ const STORY_STAGES = [
     start: 24,
     end: 55,
     numeral: "I",
-    title: "Bridging Gulf Capital with African Growth Corridors",
+    title:
+      "Bridging Gulf Capital with African Growth Corridors, and African Investment with the Gulf",
     description:
-      "Deploying syndicated private capital across institutional energy, industrial logistics, and high-alpha sovereign infrastructure.",
+      "Deploying syndicated private capital across institutional energy, industrial logistics, and sovereign infrastructure, from the Gulf into Africa and from African investors into the UAE and Middle East.",
     align: "left" as const,
   },
   {
@@ -459,13 +460,13 @@ export default function HeroSection() {
                 className={`absolute flex w-full max-w-2xl flex-col will-change-[transform,opacity] ${alignClass}`}
                 style={{ opacity: 0, visibility: "hidden" }}
               >
-                {/* Soft local scrim instead of a blurred card (cheaper to paint) */}
+                {/* Soft local scrim for optimal legibility over video frames */}
                 <div
                   aria-hidden="true"
-                  className="absolute -inset-x-10 -inset-y-12 -z-10"
+                  className="absolute -inset-x-12 -inset-y-14 -z-10"
                   style={{
                     background:
-                      "radial-gradient(ellipse at center, rgba(8,8,10,0.62) 0%, rgba(8,8,10,0.35) 55%, transparent 78%)",
+                      "radial-gradient(ellipse at center, rgba(8,8,10,0.85) 0%, rgba(8,8,10,0.55) 60%, transparent 85%)",
                   }}
                 />
 
@@ -501,11 +502,12 @@ export default function HeroSection() {
                 </h2>
 
                 <p
-                  className="mt-6 max-w-md text-[13px] font-light leading-[1.85] sm:text-sm md:text-[15px]"
+                  className="mt-6 max-w-xl text-base font-normal leading-[1.8] sm:text-lg md:text-xl"
                   style={{
-                    color: "rgba(244,239,230,0.74)",
+                    color: "#f8f5ee",
                     fontFamily: "var(--font-sans-lux), system-ui, sans-serif",
                     letterSpacing: "0.015em",
+                    textShadow: "0 2px 16px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.9)",
                   }}
                 >
                   {stage.description}

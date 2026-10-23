@@ -38,17 +38,17 @@ export const clamp = (v: number, min: number, max: number) =>
  */
 export const IMAGES = {
   mandate: "/frames/frame_0030.webp",
-  energy: "/frames/frame_0045.webp",
-  logistics: "/frames/frame_0075.webp",
-  securities: "/frames/frame_0105.webp",
-  governance: "/frames/frame_0060.webp",
+  energy: "/images/energy_corridor.jpg",
+  logistics: "/images/logistics_corridor.jpg",
+  securities: "/images/securities_corridor.jpg",
+  governance: "/images/governance.jpg",
   // Panorama image: 1920 x 1728 px. It is shown full-width, so the scroll stays short.
   panorama: "/images/panorama.png",
   process: [
-    "/frames/frame_0035.webp",
-    "/frames/frame_0065.webp",
-    "/frames/frame_0095.webp",
-    "/frames/frame_0115.webp",
+    "/images/process_source.jpg",
+    "/images/process_structure.jpg",
+    "/images/process_deploy.jpg",
+    "/images/process_steward.jpg",
   ],
   contact: "/frames/frame_0118.webp",
 } as const;

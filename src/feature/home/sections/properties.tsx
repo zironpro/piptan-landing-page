@@ -17,6 +17,7 @@ function Picture({
   style,
   imageOpacity = 1,
   sizes = "100vw",
+  priority = false,
   children,
 }: {
   src: string;
@@ -25,6 +26,7 @@ function Picture({
   style?: React.CSSProperties;
   imageOpacity?: number;
   sizes?: string;
+  priority?: boolean;
   children?: ReactNode;
 }) {
   return (
@@ -36,12 +38,14 @@ function Picture({
       <div
         ref={innerRef}
         className="absolute inset-0 will-change-transform"
-        style={{ transform: "scale(1.12)" }}
+        style={{ transform: "scale(1.05)" }}
       >
         <Image
           src={src}
           alt=""
           fill
+          unoptimized
+          priority={priority}
           sizes={sizes}
           className="object-cover"
           style={{ opacity: imageOpacity }}
@@ -141,12 +145,65 @@ const Rule = ({
 /*  1 · MANDATE — statement over a drifting picture + route diagram    */
 /* ================================================================== */
 const MANDATE =
-  "Piptan brings Gulf capital to Africa’s growth corridors, and holds every investment to the standard of an institution.";
+  "Piptan moves capital both ways, from the Gulf to Africa’s growth corridors and into the UAE and Middle East, to the standard of an institution.";
 
 const ROUTES = [
-  { label: "Energy", d: "M170 70 C 420 10, 700 40, 930 70", x: 930, y: 70 },
-  { label: "Logistics", d: "M170 70 C 420 90, 700 140, 960 150", x: 960, y: 150 },
-  { label: "Securities", d: "M170 70 C 380 150, 640 230, 900 225", x: 900, y: 225 },
+  // Westbound: Gulf Capital -> African Corridors
+  {
+    key: "gulf-energy",
+    label: "Energy",
+    d: "M 480 50 C 380 30, 240 38, 120 48",
+    x: 120,
+    y: 48,
+    textAnchor: "end",
+    textOffset: -16,
+  },
+  {
+    key: "gulf-logistics",
+    label: "Logistics",
+    d: "M 480 50 C 370 70, 230 105, 90 118",
+    x: 90,
+    y: 118,
+    textAnchor: "end",
+    textOffset: -16,
+  },
+  {
+    key: "gulf-securities",
+    label: "Securities",
+    d: "M 480 50 C 360 135, 240 178, 130 188",
+    x: 130,
+    y: 188,
+    textAnchor: "end",
+    textOffset: -16,
+  },
+  // Eastbound: African & Global Capital -> UAE / Middle East Corridors
+  {
+    key: "global-energy",
+    label: "Energy",
+    d: "M 800 50 C 900 30, 1040 38, 1160 48",
+    x: 1160,
+    y: 48,
+    textAnchor: "start",
+    textOffset: 16,
+  },
+  {
+    key: "global-logistics",
+    label: "Logistics",
+    d: "M 800 50 C 910 70, 1050 105, 1190 118",
+    x: 1190,
+    y: 118,
+    textAnchor: "start",
+    textOffset: 16,
+  },
+  {
+    key: "global-securities",
+    label: "Securities",
+    d: "M 800 50 C 920 135, 1040 178, 1150 188",
+    x: 1150,
+    y: 188,
+    textAnchor: "start",
+    textOffset: 16,
+  },
 ];
 
 export function MandateSection() {
@@ -176,7 +233,7 @@ export function MandateSection() {
     // Routes draw one after another in the second half
     pathRefs.current.forEach((el, i) => {
       if (!el) return;
-      const t = clamp((p - 0.35 - i * 0.12) / 0.3, 0, 1);
+      const t = clamp((p - 0.35 - (i % 3) * 0.12) / 0.3, 0, 1);
       el.style.strokeDashoffset = String(1 - t);
       const node = nodeRefs.current[i];
       if (node) node.style.opacity = String(clamp((t - 0.7) / 0.3, 0, 1));
@@ -195,7 +252,7 @@ export function MandateSection() {
     >
       <CoverEdge shape="slash" color={T.gold} />
       <div
-        className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden px-8 sm:px-14 md:px-24"
+        className="sticky top-0 flex h-screen w-full flex-col items-center justify-between overflow-hidden px-6 pt-24 pb-8 sm:px-14 md:px-20 md:pt-28 md:pb-12"
         style={{
           clipPath: entered ? "inset(0% 0% 0% 0%)" : "inset(0% 0% 100% 0%)",
           transition: reduce ? "none" : `clip-path 3200ms ${EASE}`,
@@ -211,104 +268,156 @@ export function MandateSection() {
           className="absolute inset-0"
           style={{
             WebkitMaskImage:
-              "radial-gradient(ellipse at 50% 45%, #000 25%, transparent 78%)",
+              "radial-gradient(ellipse at 50% 35%, #000 25%, transparent 78%)",
             maskImage:
-              "radial-gradient(ellipse at 50% 45%, #000 25%, transparent 78%)",
+              "radial-gradient(ellipse at 50% 35%, #000 25%, transparent 78%)",
           }}
         />
 
-        <p
-          className="relative max-w-5xl text-balance text-center text-[1.9rem] leading-[1.25] sm:text-5xl md:text-6xl lg:text-[4.25rem]"
-          style={{
-            color: T.text,
-            fontFamily: DISPLAY_FF,
-            fontWeight: 300,
-            letterSpacing: "-0.01em",
-            textShadow: T.shadow,
-          }}
-        >
-          {words.map((w, i) => (
-            <span
-              key={i}
-              ref={(el) => {
-                wordRefs.current[i] = el;
-              }}
-              className="inline-block will-change-[opacity]"
-              style={{ opacity: 0.14, marginRight: "0.28em" }}
-            >
-              {w}
-            </span>
-          ))}
-        </p>
-
-        {/* Capital route diagram: Gulf → three corridors */}
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 1100 260"
-          className="pointer-events-none absolute bottom-20 left-1/2 hidden w-[min(92vw,1100px)] -translate-x-1/2 md:block"
-          fill="none"
-        >
-          <g>
-            <circle cx="170" cy="70" r="5" fill={T.gold} />
-            <circle cx="170" cy="70" r="13" stroke={T.gold} strokeOpacity="0.4" />
-            <text
-              x="170"
-              y="105"
-              textAnchor="middle"
-              fill={T.goldSoft}
-              fontSize="14"
-              fontFamily="var(--font-display), Georgia, serif"
-              letterSpacing="1.5"
-            >
-              Gulf capital
-            </text>
-          </g>
-          {ROUTES.map((r, i) => (
-            <g key={r.label}>
-              <path
+        {/* Statement text: positioned in the upper portion so it never collides with bottom diagram */}
+        <div className="relative z-10 flex w-full max-w-5xl flex-1 items-center justify-center">
+          <p
+            className="text-balance text-center text-[1.75rem] leading-[1.25] sm:text-4xl md:text-5xl lg:text-[3.75rem]"
+            style={{
+              color: T.text,
+              fontFamily: DISPLAY_FF,
+              fontWeight: 300,
+              letterSpacing: "-0.01em",
+              textShadow: T.shadow,
+            }}
+          >
+            {words.map((w, i) => (
+              <span
+                key={i}
                 ref={(el) => {
-                  pathRefs.current[i] = el;
+                  wordRefs.current[i] = el;
                 }}
-                d={r.d}
-                pathLength={1}
-                stroke={T.gold}
-                strokeWidth="1.2"
-                strokeDasharray="1"
-                strokeDashoffset="1"
-                strokeLinecap="round"
-              />
-              <g
-                ref={(el) => {
-                  nodeRefs.current[i] = el;
-                }}
-                style={{ opacity: 0 }}
+                className="inline-block will-change-[opacity]"
+                style={{ opacity: 0.14, marginRight: "0.28em" }}
               >
-                <circle cx={r.x} cy={r.y} r="4" fill={T.goldSoft} />
-                <text
-                  x={r.x + 16}
-                  y={r.y + 5}
-                  fill={T.text}
-                  fontSize="15"
-                  fontFamily="var(--font-display), Georgia, serif"
-                  letterSpacing="1.5"
-                >
-                  {r.label}
-                </text>
-              </g>
-            </g>
-          ))}
-        </svg>
+                {w}
+              </span>
+            ))}
+          </p>
+        </div>
 
-        <div
-          aria-hidden="true"
-          className="absolute bottom-10 h-px w-40 sm:w-64"
-          style={{ background: T.hair }}
-        >
+        {/* Dedicated Bottom Space for the Capital Route Diagram */}
+        <div className="relative z-10 hidden w-full max-w-6xl flex-col items-center md:flex">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 1280 230"
+            className="pointer-events-none w-full"
+            fill="none"
+          >
+            {/* Origin Node 1: Gulf Capital -> Africa */}
+            <g>
+              <circle cx="500" cy="50" r="5" fill={T.gold} />
+              <circle cx="500" cy="50" r="14" stroke={T.gold} strokeOpacity="0.4" />
+              <text
+                x="500"
+                y="84"
+                textAnchor="middle"
+                fill={T.goldSoft}
+                fontSize="13"
+                fontFamily="var(--font-display), Georgia, serif"
+                letterSpacing="1.5"
+              >
+                Gulf Capital → Africa
+              </text>
+            </g>
+
+            {/* Central Conduit Indicator */}
+            <g opacity="0.6">
+              <line
+                x1="535"
+                y1="50"
+                x2="745"
+                y2="50"
+                stroke={T.gold}
+                strokeWidth="1"
+                strokeDasharray="3 4"
+              />
+              <polygon points="635,46 645,50 635,54" fill={T.gold} />
+              <text
+                x="640"
+                y="74"
+                textAnchor="middle"
+                fill={T.goldSoft}
+                fontSize="10"
+                fontFamily="var(--font-sans-lux), system-ui, sans-serif"
+                letterSpacing="2"
+              >
+                PIPTAN CORRIDORS
+              </text>
+            </g>
+
+            {/* Origin Node 2: Global / African Investment -> UAE & Middle East */}
+            <g>
+              <circle cx="780" cy="50" r="5" fill={T.gold} />
+              <circle cx="780" cy="50" r="14" stroke={T.gold} strokeOpacity="0.4" />
+              <text
+                x="780"
+                y="84"
+                textAnchor="middle"
+                fill={T.goldSoft}
+                fontSize="13"
+                fontFamily="var(--font-display), Georgia, serif"
+                letterSpacing="1.5"
+              >
+                Investment → UAE / Middle East
+              </text>
+            </g>
+
+            {/* West & East Corridor Branches */}
+            {ROUTES.map((r, i) => (
+              <g key={r.key}>
+                <path
+                  ref={(el) => {
+                    pathRefs.current[i] = el;
+                  }}
+                  d={r.d}
+                  pathLength={1}
+                  stroke={T.gold}
+                  strokeWidth="1.2"
+                  strokeDasharray="1"
+                  strokeDashoffset="1"
+                  strokeLinecap="round"
+                />
+                <g
+                  ref={(el) => {
+                    nodeRefs.current[i] = el;
+                  }}
+                  style={{ opacity: 0 }}
+                >
+                  <circle cx={r.x} cy={r.y} r="4" fill={T.goldSoft} />
+                  <text
+                    x={r.x + r.textOffset}
+                    y={r.y + 5}
+                    textAnchor={r.textAnchor as "start" | "end"}
+                    fill={T.text}
+                    fontSize="14"
+                    fontFamily="var(--font-display), Georgia, serif"
+                    letterSpacing="1.5"
+                  >
+                    {r.label}
+                  </text>
+                </g>
+              </g>
+            ))}
+          </svg>
+
+          {/* Golden Progress Indicator Line */}
           <div
-            ref={lineRef}
-            className="h-full w-full origin-left will-change-transform"
-            style={{ background: T.gold, transform: "scaleX(0)" }}
-          />
+            aria-hidden="true"
+            className="mt-2 h-px w-44 sm:w-64"
+            style={{ background: T.hair }}
+          >
+            <div
+              ref={lineRef}
+              className="h-full w-full origin-left will-change-transform"
+              style={{ background: T.gold, transform: "scaleX(0)" }}
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -405,10 +514,11 @@ export function CorridorsSection() {
             >
               <Picture
                 src={c.image}
+                priority
                 innerRef={(el) => {
                   picRefs.current[i] = el;
                 }}
-                sizes="(min-width: 768px) 40vw, 90vw"
+                sizes="(min-width: 768px) 50vw, 100vw"
                 className="h-[36vh] w-full shrink-0 md:h-[64vh] md:w-[38vw]"
                 style={{ border: `1px solid ${T.gold}66` }}
               >
@@ -602,10 +712,11 @@ export function GovernanceSection() {
           {/* Arch-shaped picture */}
           <Picture
             src={IMAGES.governance}
+            priority
             innerRef={(el) => {
               picRef.current = el;
             }}
-            sizes="(min-width: 768px) 32vw, 70vw"
+            sizes="(min-width: 768px) 35vw, 70vw"
             className="mx-auto hidden h-[68vh] w-full max-w-[420px] md:block"
             style={{
               borderRadius: "999px 999px 0 0",
@@ -1074,6 +1185,7 @@ export function ProcessSection() {
               >
                 <Picture
                   src={IMAGES.process[i]}
+                  priority
                   innerRef={(el) => {
                     picRefs.current[i] = el;
                   }}
